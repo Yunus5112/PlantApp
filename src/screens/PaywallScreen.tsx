@@ -1,104 +1,95 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
-  ImageBackground,
   ScrollView,
+  ImageBackground,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
+import { PaywallTexts } from '../constants/PaywallScreenTexts';
+import PaywallBgSvg from '../assets/svg/paywallbg.svg';
+import PaywallScanSvg from '../assets/svg/PaywallScan.svg';
+import CloseIcon from '../assets/icon/close-icon.svg';
+import PrimaryButton from '../components/buttons/PrimaryButton';
+import { fontScale, scale, verticalScale, moderateScale } from '../utils/scaling';
 
 type PaywallScreenProps = NativeStackScreenProps<RootStackParamList, 'Paywall'>;
 
 const PaywallScreen = ({ navigation }: PaywallScreenProps) => {
-  const features = [
-    { icon: '📷', title: 'Unlimited', subtitle: 'Plant Identify' },
-    { icon: '⚡️', title: 'Faster', subtitle: 'Process' },
-    { icon: '📊', title: 'Data', subtitle: 'Plant Details' }, // Assuming third feature
-  ];
+  const [selectedPlan, setSelectedPlan] = useState<'yearly' | 'monthly'>('yearly');
 
-  const plans = [
-    { id: 'monthly', duration: '1 Month', price: '$2.99/month, auto renewable', selected: false },
-    {
-      id: 'yearly',
-      duration: '1 Year',
-      price: 'First 3 days free, then $529,99/year',
-      save: 'Save 50%',
-      selected: true,
-    },
+  const features = [
+    PaywallTexts.feature1,
+    PaywallTexts.feature2,
+    PaywallTexts.feature3,
+    PaywallTexts.feature4,
   ];
 
   return (
-    <ImageBackground
-      style={styles.backgroundImage}
-      blurRadius={5}
-    >
+    <ImageBackground source={require('../assets/svg/paywallbg.svg')} style={styles.backgroundImageStyle}> 
       <SafeAreaView style={styles.safeArea}>
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <TouchableOpacity style={styles.closeButton} onPress={() => navigation.goBack()}>
-            <Text style={styles.closeButtonText}>✕</Text>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeButtonContainer}>
+            <CloseIcon width={scale(24)} height={scale(24)} fill="#FFFFFF" />
           </TouchableOpacity>
 
-          <View style={styles.headerSection}>
-            <Text style={styles.mainTitle}>PlantApp Premium</Text>
-            <Text style={styles.subtitle}>Access All Features</Text>
+          <View style={styles.headerContainer}>
+            <PaywallScanSvg width={scale(80)} height={scale(80)} style={styles.headerScanIcon}/>
+            <Text style={styles.title}>{PaywallTexts.title}</Text>
+            <Text style={styles.subtitle}>{PaywallTexts.subtitle}</Text>
           </View>
 
-          <View style={styles.featuresSection}>
+          <View style={styles.featuresContainer}>
             {features.map((feature, index) => (
               <View key={index} style={styles.featureBox}>
-                <Text style={styles.featureIcon}>{feature.icon}</Text>
-                <Text style={styles.featureTitle}>{feature.title}</Text>
-                <Text style={styles.featureSubtitle}>{feature.subtitle}</Text>
+                <Text style={styles.featureText}>{feature}</Text>
               </View>
             ))}
           </View>
 
-          <View style={styles.plansSection}>
-            {plans.map((plan) => (
-              <TouchableOpacity
-                key={plan.id}
-                style={[styles.planBox, plan.selected && styles.selectedPlanBox]}
-              >
-                <View style={styles.planLeft}>
-                  <View style={[styles.radioCircle, plan.selected && styles.selectedRadioCircle]}>
-                    {plan.selected && <View style={styles.radioInnerCircle} />}
-                  </View>
-                  <View>
-                    <Text style={[styles.planDuration, plan.selected && styles.selectedPlanText]}>
-                      {plan.duration}
-                    </Text>
-                    <Text style={[styles.planPrice, plan.selected && styles.selectedPlanText]}>
-                      {plan.price}
-                    </Text>
-                  </View>
-                </View>
-                {plan.save && (
-                  <View style={styles.saveBadge}>
-                    <Text style={styles.saveBadgeText}>{plan.save}</Text>
-                  </View>
-                )}
-              </TouchableOpacity>
-            ))}
+          <View style={styles.planSelectionContainer}>
+            <TouchableOpacity 
+              style={[styles.planOption, selectedPlan === 'monthly' && styles.selectedPlan]}
+              onPress={() => setSelectedPlan('monthly')}
+            >
+              <Text style={styles.planTitle}>{PaywallTexts.monthlyPlan}</Text>
+              <Text style={styles.planPrice}>{PaywallTexts.monthlyPrice}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={[styles.planOption, styles.yearlyPlanOption, selectedPlan === 'yearly' && styles.selectedPlan]}
+              onPress={() => setSelectedPlan('yearly')}
+            >
+              <View style={styles.badgeContainer}>
+                <Text style={styles.badgeText}>{PaywallTexts.saveBadge}</Text>
+              </View>
+              <Text style={styles.planTitle}>{PaywallTexts.yearlyPlan}</Text>
+              <Text style={styles.planPrice}>{PaywallTexts.yearlyPrice}</Text>
+            </TouchableOpacity>
           </View>
 
-          <TouchableOpacity style={styles.ctaButton} onPress={() => navigation.navigate('Home')}>
-            <Text style={styles.ctaButtonText}>Try free for 3 days</Text>
-          </TouchableOpacity>
+          <PrimaryButton 
+            title={PaywallTexts.ctaButton}
+            onPress={() => navigation.navigate('MainApp')}
+            style={styles.ctaButton}
+            textStyle={styles.ctaButtonText}
+          />
 
-          <Text style={styles.legalText}>
-            After the 3-day free trial period you'll be charged $274.99 per year unless you cancel before the trial expires. Yearly Subscription is Auto-Renewable
-          </Text>
+          <Text style={styles.legalTextSmall}>{PaywallTexts.subscriptionInfo}</Text>
 
-          <View style={styles.footerLinks}>
-            <TouchableOpacity><Text style={styles.footerLinkText}>Terms</Text></TouchableOpacity>
-            <Text style={styles.footerLinkSeparator}>•</Text>
-            <TouchableOpacity><Text style={styles.footerLinkText}>Privacy</Text></TouchableOpacity>
-            <Text style={styles.footerLinkSeparator}>•</Text>
-            <TouchableOpacity><Text style={styles.footerLinkText}>Restore</Text></TouchableOpacity>
+          <View style={styles.footerLinksContainer}>
+            <TouchableOpacity onPress={() => console.log('Terms of Use')}>
+              <Text style={styles.footerLink}>{PaywallTexts.termsLink}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log('Privacy Policy')}>
+              <Text style={styles.footerLink}>{PaywallTexts.privacyLink}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log('Restore Purchase')}>
+              <Text style={styles.footerLink}>{PaywallTexts.restoreLink}</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -107,180 +98,143 @@ const PaywallScreen = ({ navigation }: PaywallScreenProps) => {
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
+  backgroundImageStyle: {
     flex: 1,
-    backgroundColor: '#1A2B1A',
+    backgroundColor: '#10151D',
   },
   safeArea: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   scrollViewContent: {
-    padding: 20,
+    paddingBottom: verticalScale(30),
     alignItems: 'center',
   },
-  closeButton: {
+  closeButtonContainer: {
     position: 'absolute',
-    top: 20,
-    right: 20,
-    padding: 10,
+    top: verticalScale(20),
+    right: scale(20),
     zIndex: 1,
   },
-  closeButtonText: {
-    fontSize: 24,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  headerSection: {
+  headerContainer: {
     alignItems: 'center',
-    marginTop: 60,
-    marginBottom: 30,
+    marginTop: verticalScale(80), 
+    marginBottom: verticalScale(30),
+    paddingHorizontal: scale(20),
   },
-  plantImage: {
-    width: 150,
-    height: 150,
-    resizeMode: 'contain',
-    marginBottom: 20,
+  headerScanIcon: {
+    marginBottom: verticalScale(15),
   },
-  mainTitle: {
-    fontSize: 32,
+  title: {
+    fontSize: fontScale(26),
     fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 5,
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginBottom: verticalScale(10),
   },
   subtitle: {
-    fontSize: 18,
-    color: '#ccc',
-    marginBottom: 30,
+    fontSize: fontScale(16),
+    color: '#B0B0B0',
+    textAlign: 'center',
+    marginBottom: verticalScale(30),
   },
-  featuresSection: {
+  featuresContainer: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-around',
-    width: '100%',
-    marginBottom: 30,
+    paddingHorizontal: scale(10),
+    marginBottom: verticalScale(30),
   },
   featureBox: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 15,
-    padding: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: moderateScale(12),
+    paddingVertical: verticalScale(15),
+    paddingHorizontal: scale(10),
+    width: '46%',
+    marginBottom: verticalScale(15),
     alignItems: 'center',
-    width: '30%',
+    minHeight: verticalScale(70),
+    justifyContent: 'center',
   },
-  featureIcon: {
-    fontSize: 24,
-    marginBottom: 5,
-    color: '#fff',
-  },
-  featureTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 3,
-  },
-  featureSubtitle: {
-    fontSize: 12,
-    color: '#ddd',
+  featureText: {
+    color: '#FFFFFF',
+    fontSize: fontScale(14),
     textAlign: 'center',
   },
-  plansSection: {
-    width: '100%',
-    marginBottom: 20,
-  },
-  planBox: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: 15,
+  planSelectionContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    borderWidth: 2,
+    paddingHorizontal: scale(20),
+    marginBottom: verticalScale(25),
+    width: '100%',
+  },
+  planOption: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: moderateScale(14),
+    padding: moderateScale(18),
+    width: '48%',
+    alignItems: 'center',
+    borderWidth: 1,
     borderColor: 'transparent',
   },
-  selectedPlanBox: {
-    borderColor: '#4CAF50',
-    backgroundColor: 'rgba(76, 175, 80, 0.2)',
+  yearlyPlanOption: {
   },
-  planLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  selectedPlan: {
+    borderColor: '#28AF6E', 
+    backgroundColor: 'rgba(40, 175, 110, 0.25)',
   },
-  radioCircle: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#aaa',
-    marginRight: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
+  badgeContainer: {
+    backgroundColor: '#28AF6E',
+    borderRadius: moderateScale(6),
+    paddingHorizontal: scale(8),
+    paddingVertical: verticalScale(3),
+    position: 'absolute',
+    top: verticalScale(-10),
+    right: scale(10),
   },
-  selectedRadioCircle: {
-    borderColor: '#4CAF50',
-  },
-  radioInnerCircle: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#4CAF50',
-  },
-  planDuration: {
-    fontSize: 16,
+  badgeText: {
+    color: '#FFFFFF',
+    fontSize: fontScale(10),
     fontWeight: 'bold',
-    color: '#fff',
+  },
+  planTitle: {
+    color: '#FFFFFF',
+    fontSize: fontScale(16),
+    fontWeight: 'bold',
+    marginBottom: verticalScale(8),
   },
   planPrice: {
-    fontSize: 14,
-    color: '#ccc',
-  },
-  selectedPlanText: {
-    color: '#fff',
-  },
-  saveBadge: {
-    backgroundColor: '#4CAF50',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 10,
-  },
-  saveBadgeText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
+    color: '#B0B0B0',
+    fontSize: fontScale(14),
   },
   ctaButton: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 25,
-    paddingVertical: 18,
-    width: '100%',
-    alignItems: 'center',
-    marginBottom: 15,
+    backgroundColor: '#28AF6E', 
+    width: '90%',
+    marginTop: verticalScale(10),
+    marginBottom: verticalScale(15),
+    paddingVertical: verticalScale(18),
   },
   ctaButtonText: {
-    color: '#fff',
-    fontSize: 18,
+    fontSize: fontScale(18),
     fontWeight: 'bold',
   },
-  legalText: {
-    fontSize: 11,
-    color: '#aaa',
+  legalTextSmall: {
+    fontSize: fontScale(10),
+    color: '#868686',
     textAlign: 'center',
-    marginBottom: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: scale(30),
+    marginBottom: verticalScale(20),
+    lineHeight: fontScale(14),
   },
-  footerLinks: {
+  footerLinksContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '80%',
+    paddingBottom: verticalScale(20),
   },
-  footerLinkText: {
-    color: '#fff',
-    fontSize: 13,
-    fontWeight: '500',
-  },
-  footerLinkSeparator: {
-    color: '#fff',
-    marginHorizontal: 8,
-    fontSize: 13,
+  footerLink: {
+    color: '#868686',
+    fontSize: fontScale(11),
+    textDecorationLine: 'underline',
   },
 });
 

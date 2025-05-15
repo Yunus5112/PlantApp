@@ -1,7 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
+import PhoneSvg from '../assets/svg/Phone.svg';
+import ScanSvg from '../assets/svg/Scan.svg';
+import GetStartedPlantSvg from '../assets/svg/getstartedplantsvg.svg';
+import { OnboardingFirstTexts } from '../constants/OnboardingFirstScreenTexts';
+import PrimaryButton from '../components/buttons/PrimaryButton';
+import { fontScale, scale, verticalScale } from '../utils/scaling';
 
 type OnboardingFirstScreenProps = NativeStackScreenProps<RootStackParamList, 'OnboardingFirst'>;
 
@@ -10,91 +17,120 @@ const OnboardingFirstScreen = ({ navigation }: OnboardingFirstScreenProps) => {
   const activeDotIndex = 0;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.title}>Take a photo to identify the plant!</Text>
-      </View>
-
-      <View style={styles.imageContainer}>
-        {/* Placeholder for image - e.g., phone with camera view */}
-        {/* <Image source={require('../assets/onboarding_1_image.png')} style={styles.onboardingImage} /> */}
-      </View>
-
-      <View style={styles.footerContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('OnboardingSecond')}>
-          <Text style={styles.buttonText}>Continue</Text>
-        </TouchableOpacity>
-        <View style={styles.paginationContainer}>
-          {Array.from({ length: totalDots }).map((_, index) => (
-            <View
-              key={index}
-              style={[styles.dot, index === activeDotIndex ? styles.activeDot : styles.inactiveDot]}
-            />
-          ))}
+    <LinearGradient colors={['#F8FAFF', '#FAFAFA']} style={styles.gradientContainer}>
+      <SafeAreaView style={styles.safeAreaContent}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.title}>
+            {OnboardingFirstTexts.titlePart1}
+            <Text style={styles.highlightIdentify}>{OnboardingFirstTexts.titleHighlight}</Text>
+            {OnboardingFirstTexts.titlePart2}
+          </Text>
         </View>
-      </View>
-    </SafeAreaView>
+
+        <View style={styles.imageContainer}>
+          <GetStartedPlantSvg 
+            width={styles.backgroundImagePlant.width} 
+            height={styles.backgroundImagePlant.height} 
+            style={styles.backgroundImagePlant} 
+          />
+          <PhoneSvg 
+            width={styles.phoneImage.width} 
+            height={styles.phoneImage.height} 
+            style={styles.phoneImage} 
+          />
+          <ScanSvg 
+            width={styles.scanOverlay.width} 
+            height={styles.scanOverlay.height} 
+            style={styles.scanOverlay} 
+          />
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <PrimaryButton
+            title={OnboardingFirstTexts.button}
+            onPress={() => navigation.navigate('OnboardingSecond')}
+          />
+        </View>
+         <View style={styles.paginationContainer}>
+            {Array.from({ length: totalDots }).map((_, index) => (
+              <View
+                key={index}
+                style={[styles.dot, index === activeDotIndex ? styles.activeDot : styles.inactiveDot]}
+              />
+            ))}
+          </View>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  gradientContainer: {
     flex: 1,
-    backgroundColor: '#E0F7FA',
+  },
+  safeAreaContent: {
+    flex: 1,
     justifyContent: 'space-between',
   },
   headerContainer: {
     alignItems: 'center',
-    paddingTop: 50,
-    paddingHorizontal: 20,
+    paddingTop: verticalScale(50),
+    paddingHorizontal: scale(20),
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#2E7D32',
+    fontSize: fontScale(28),
+    fontWeight: '500',
+    color: '#13231B',
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: verticalScale(30),
+  },
+  highlightIdentify: {
+    color: '#1B5E20',
   },
   imageContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
   },
-  onboardingImage: {
-    width: 300,
-    height: 450,
+  backgroundImagePlant: {
+    position: 'absolute',
+    width: scale(280),
+    height: verticalScale(450),
+    top: '-20%',
+    zIndex: 0,
+  },
+  phoneImage: {
+    position: 'absolute',
+    width: scale(300),
+    height: verticalScale(360),
     resizeMode: 'contain',
+    zIndex: 1,
+    top: '-5%',
   },
-  footerContainer: {
+  scanOverlay: {
+    position: 'absolute',
+    width: '60%', 
+    height: '50%',
+    top: '25%',
+    zIndex: 2,
+  },
+  buttonContainer: {
     alignItems: 'center',
-    paddingBottom: 30,
-    paddingHorizontal: 20,
-  },
-  button: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 15,
-    paddingHorizontal: 120,
-    borderRadius: 25,
-    marginBottom: 20,
-    width: '90%',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+    paddingBottom: verticalScale(30),
+    paddingHorizontal: scale(20),
   },
   paginationContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: verticalScale(20),
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 4,
+    width: scale(8),
+    height: scale(8),
+    borderRadius: scale(4),
+    marginHorizontal: scale(4),
   },
   activeDot: {
     backgroundColor: '#2E7D32',

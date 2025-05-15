@@ -1,7 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
+import Onboarding2Svg from '../assets/svg/Onboarding2.svg';
+import Onboarding2SecondSvg from '../assets/svg/Onboarding2Second.svg';
+import { OnboardingSecondTexts } from '../constants/OnboardingSecondScreenTexts';
+import PrimaryButton from '../components/buttons/PrimaryButton';
+import { fontScale, scale, verticalScale } from '../utils/scaling';
 
 type OnboardingSecondScreenProps = NativeStackScreenProps<RootStackParamList, 'OnboardingSecond'>;
 
@@ -10,94 +16,107 @@ const OnboardingSecondScreen = ({ navigation }: OnboardingSecondScreenProps) => 
   const activeDotIndex = 1;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.title}>Get plant care guides</Text>
-      </View>
-
-      <View style={styles.imageContainer}>
-        {/* Placeholder for image - e.g., phone with plant care guide */}
-        {/* <Image source={require('../assets/onboarding_2_image.png')} style={styles.onboardingImage} /> */}
-      </View>
-
-      <View style={styles.footerContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Paywall')}>
-          <Text style={styles.buttonText}>Continue</Text>
-        </TouchableOpacity>
-        <View style={styles.paginationContainer}>
-          {Array.from({ length: totalDots }).map((_, index) => (
-            <View
-              key={index}
-              style={[styles.dot, index === activeDotIndex ? styles.activeDot : styles.inactiveDot]}
-            />
-          ))}
+    <LinearGradient colors={['#F8FAFF', '#FAFAFA']} style={styles.gradientContainer}>
+      <SafeAreaView style={styles.safeAreaContent}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.title}>
+            {OnboardingSecondTexts.titlePart1}<Text style={styles.titleBold}>{OnboardingSecondTexts.titleBold}</Text>
+          </Text>
         </View>
-      </View>
-    </SafeAreaView>
+
+        <View style={styles.imageContainer}>
+          <Onboarding2Svg 
+            width={styles.onboardingImage.width} 
+            height={styles.onboardingImage.height} 
+            style={styles.onboardingImage}
+          />
+          <Onboarding2SecondSvg 
+            width={styles.floatingCardsImage.width} 
+            height={styles.floatingCardsImage.height} 
+            style={styles.floatingCardsImage}
+          />
+        </View>
+
+        <View style={styles.footerContainer}>
+          <PrimaryButton
+            title={OnboardingSecondTexts.button}
+            onPress={() => navigation.navigate('Paywall')}
+          />
+          <View style={styles.paginationContainer}>
+            {Array.from({ length: totalDots }).map((_, index) => (
+              <View
+                key={index}
+                style={[styles.dot, index === activeDotIndex ? styles.activeDot : styles.inactiveDot]}
+              />
+            ))}
+          </View>
+        </View>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  gradientContainer: {
     flex: 1,
-    backgroundColor: '#E0F7FA',
+  },
+  safeAreaContent: {
+    flex: 1,
     justifyContent: 'space-between',
   },
   headerContainer: {
     alignItems: 'center',
-    paddingTop: 50,
-    paddingHorizontal: 20,
+    paddingTop: verticalScale(50),
+    paddingHorizontal: scale(20),
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#2E7D32',
+    fontSize: fontScale(28),
+    fontWeight: '500',
+    color: '#13231B',
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: verticalScale(30),
+  },
+  titleBold: {
+    fontWeight: 'bold',
   },
   imageContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
   },
   onboardingImage: {
-    width: 300,
-    height: 450,
-    resizeMode: 'contain',
+    width: scale(243),
+    height: verticalScale(525),
+    zIndex: 0,
+  },
+  floatingCardsImage: {
+    position: 'absolute',
+    width: scale(155),
+    height: verticalScale(170),
+    top: '15%',
+    right: '5%',
+    zIndex: 1,
   },
   footerContainer: {
     alignItems: 'center',
-    paddingBottom: 30,
-    paddingHorizontal: 20,
-  },
-  button: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 15,
-    paddingHorizontal: 120,
-    borderRadius: 25,
-    marginBottom: 20,
-    width: '90%',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+    paddingBottom: verticalScale(30),
+    paddingHorizontal: scale(20),
   },
   paginationContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: verticalScale(20),
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 4,
+    width: scale(8),
+    height: scale(8),
+    borderRadius: scale(4),
+    marginHorizontal: scale(4),
   },
   activeDot: {
-    backgroundColor: '#2E7D32',
+    backgroundColor: '#28AF6E',
   },
   inactiveDot: {
     backgroundColor: '#BDBDBD',

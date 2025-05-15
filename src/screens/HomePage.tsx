@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,89 +9,125 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  Dimensions,
 } from 'react-native';
+import type { CompositeScreenProps } from '@react-navigation/native';
+import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../../App';
+import type { RootStackParamList, BottomTabParamList } from '../../App';
+import type { PlantCategory, ApiResponse as CategoriesApiResponse, Question, QuestionsApiResponse } from '../types';
+import HomePageLeftImageSvg from '../assets/svg/HomePageLeftImage.svg';
+import HomePageRightImageSvg from '../assets/svg/HomePageRightImage.svg';
+import { HomePageTexts } from '../constants/HomePageTexts';
 
-type HomePageProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
+type HomePageProps = CompositeScreenProps<
+  BottomTabScreenProps<BottomTabParamList, 'HomeTab'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
 
-const getStartedData = [
-  { id: '1', title: 'How to identify plants easily with PlantApp?', imageUri: 'https://via.placeholder.com/280x180/92C952/FFFFFF?Text=Plant1' },
-  { id: '2', title: 'Species and are the differ', imageUri: 'https://via.placeholder.com/280x180/77DD77/FFFFFF?Text=Plant2' },
-];
-
-const categoriesData = [
-  { id: '1', name: 'Edible Plants', imageUri: 'https://via.placeholder.com/180x180/A2D2A2/000000?Text=Edible' },
-  { id: '2', name: 'Ferns', imageUri: 'https://via.placeholder.com/180x180/8FBC8F/000000?Text=Ferns' },
-  { id: '3', name: 'Cacti and Succulents', imageUri: 'https://via.placeholder.com/180x180/98FB98/000000?Text=Cacti' },
-  { id: '4', name: 'Palms', imageUri: 'https://via.placeholder.com/180x180/90EE90/000000?Text=Palms' },
-];
+const { width } = Dimensions.get('window');
 
 const HomePage = ({ navigation }: HomePageProps) => {
-  const renderGetStartedItem = ({ item }: { item: typeof getStartedData[0] }) => (
-    <TouchableOpacity style={styles.getStartedCard}>
-      <Image source={{ uri: item.imageUri }} style={styles.getStartedCardImage} />
+  const [getStartedData, setGetStartedData] = useState<Question[]>([]);
+  const [categoriesData, setCategoriesData] = useState<PlantCategory[]>([]);
+  const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await fetch('https://dummy-api-jtg6bessta-ey.a.run.app/getQuestions');
+        const data: QuestionsApiResponse = await response.json();
+        data.sort((a, b) => a.order - b.order);
+        setGetStartedData(data);
+      } catch (error) {
+        console.error("Failed to fetch questions:", error);
+      }
+    };
+
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('https://dummy-api-jtg6bessta-ey.a.run.app/getCategories');
+        const data: CategoriesApiResponse = await response.json();
+        data.data.sort((a, b) => a.rank - b.rank);
+        setCategoriesData(data.data);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+
+    fetchQuestions();
+    fetchCategories();
+  }, []);
+
+  const renderGetStartedItem = ({ item }: { item: Question }) => (
+    <TouchableOpacity style={styles.getStartedCard} onPress={() => console.log('Navigate to:', item.uri)}>
+      <Image source={{ uri: item.image_uri }} style={styles.getStartedCardImage} />
       <View style={styles.getStartedCardOverlay} />
       <Text style={styles.getStartedCardText}>{item.title}</Text>
     </TouchableOpacity>
   );
 
-  const renderCategoryItem = ({ item }: { item: typeof categoriesData[0] }) => (
+  const renderCategoryItem = ({ item }: { item: PlantCategory }) => (
     <TouchableOpacity style={styles.categoryCard}>
-      <Image source={{ uri: item.imageUri }} style={styles.categoryCardImage} />
+      <Image source={{ uri: item.image.url }} style={styles.categoryCardImage} />
       <View style={styles.categoryCardTextContainer}>
-        <Text style={styles.categoryCardText}>{item.name}</Text>
+        <Text style={styles.categoryCardText}>{item.title}</Text>
       </View>
     </TouchableOpacity>
   );
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView style={styles.scrollViewContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.headerContainer}>
-          <Text style={styles.greetingText}>Hi, plant lover!</Text>
-          <Text style={styles.goodDayText}>Good Afternoon! 🌤️</Text>
+          <Text style={styles.greetingText}>{HomePageTexts.greeting}</Text>
+          <Text style={styles.timeText}>{HomePageTexts.timeGreeting}</Text>
         </View>
 
         <View style={styles.searchContainer}>
           <View style={styles.searchIconContainer}>
-            <Text>🔍</Text>
+            <Text>{HomePageTexts.searchIconFallback}</Text>
           </View>
           <TextInput
-            placeholder="Search for plants"
-            placeholderTextColor="#aaa"
+            placeholder={HomePageTexts.searchPlaceholder}
+            placeholderTextColor="#AFAFAF"
             style={styles.searchInput}
+            value={searchText}
+            onChangeText={setSearchText}
           />
+          <HomePageLeftImageSvg style={styles.leftSvg} />
+          <HomePageRightImageSvg style={styles.rightSvg} />
         </View>
 
         <TouchableOpacity style={styles.premiumBanner} onPress={() => navigation.navigate('Paywall')}>
           <View style={styles.premiumBannerIconContainer}>
-            <Text style={styles.premiumBannerIcon}>✉️</Text>
+            <Text style={styles.premiumBannerIcon}>{HomePageTexts.premiumIconFallback}</Text>
             <View style={styles.notificationBadge}>
-              <Text style={styles.notificationBadgeText}>1</Text>
+              <Text style={styles.notificationBadgeText}>{HomePageTexts.premiumNotification}</Text>
             </View>
           </View>
           <View style={styles.premiumBannerTextContainer}>
-            <Text style={styles.premiumBannerTitle}>FREE Premium Available</Text>
-            <Text style={styles.premiumBannerSubtitle}>Tap to upgrade your account!</Text>
+            <Text style={styles.premiumBannerTitle}>{HomePageTexts.premiumTitle}</Text>
+            <Text style={styles.premiumBannerSubtitle}>{HomePageTexts.premiumSubtitle}</Text>
           </View>
-          <Text style={styles.premiumBannerArrow}>❯</Text>
+          <Text style={styles.premiumBannerArrow}>{HomePageTexts.premiumArrow}</Text>
         </TouchableOpacity>
 
-        <Text style={styles.sectionTitle}>Get Started</Text>
+        <Text style={styles.sectionTitle}>{HomePageTexts.getStartedSectionTitle}</Text>
         <FlatList
           data={getStartedData}
           renderItem={renderGetStartedItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id.toString()}
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.getStartedList}
         />
 
+        <Text style={styles.sectionTitle}>{HomePageTexts.categoriesSectionTitle}</Text>
         <FlatList
           data={categoriesData}
           renderItem={renderCategoryItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id.toString()}
           numColumns={2}
           columnWrapperStyle={styles.categoriesRow}
           scrollEnabled={false}
@@ -107,28 +143,60 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F7F9F7',
   },
-  scrollViewContainer: {
-    paddingBottom: 20,
+  container: {
+    flex: 1,
+    backgroundColor: '#F4F6F8',
   },
   headerContainer: {
+    backgroundColor: '#FFFFFF',
+    paddingBottom: 20,
     paddingHorizontal: 20,
-    paddingTop: 25,
-    paddingBottom: 15,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  leftSvg: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  rightSvg: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
   greetingText: {
     fontSize: 16,
-    color: '#666',
+    color: '#13231B',
   },
-  goodDayText: {
-    fontSize: 26,
+  timeText: {
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#222',
+    color: '#13231B',
+  },
+  searchSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F0F2F5',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    marginTop: 15,
+    height: 50,
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#333',
   },
   searchContainer: {
     marginHorizontal: 20,
     marginBottom: 25,
     backgroundColor: '#fff',
-    borderRadius: 25,
+    borderRadius: 12,
     paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
@@ -141,11 +209,6 @@ const styles = StyleSheet.create({
   },
   searchIconContainer: {
     marginRight: 10,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333',
   },
   premiumBanner: {
     backgroundColor: '#2C2C2C',
@@ -187,23 +250,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   premiumBannerTitle: {
-    color: '#fff',
+    color: '#F5C25B',
     fontSize: 16,
     fontWeight: 'bold',
   },
   premiumBannerSubtitle: {
-    color: '#bbb',
+    color: '#F5C25B',
     fontSize: 13,
     marginTop: 2,
   },
   premiumBannerArrow: {
-    color: '#777',
+    color: '#D0B070',
     fontSize: 22,
   },
   sectionTitle: {
-    fontSize: 22,
+    fontSize: 15,
     fontWeight: 'bold',
-    color: '#2E7D32',
+    color: '#13231B',
     marginHorizontal: 20,
     marginBottom: 15,
   },
@@ -234,7 +297,7 @@ const styles = StyleSheet.create({
     left: 15,
     right: 15,
     color: '#fff',
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: 'bold',
   },
   categoriesList: {
@@ -267,9 +330,9 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   categoryCardText: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#2E7D32',
+    color: '#13231B',
     textAlign: 'center',
   },
 });

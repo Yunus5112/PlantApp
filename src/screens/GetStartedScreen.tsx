@@ -1,59 +1,108 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
+import GetStartedPlantSvg from '../assets/svg/getstartedplantsvg.svg';
+import ScanSvg from '../assets/svg/Scan.svg';
+import { GetStartedTexts } from '../constants/GetStartedScreenTexts';
+import { fontScale, scale, verticalScale } from '../utils/scaling';
+import PrimaryButton from '../components/buttons/PrimaryButton';
 
 type GetStartedScreenProps = NativeStackScreenProps<RootStackParamList, 'GetStarted'>;
 
 const GetStartedScreen = ({ navigation }: GetStartedScreenProps) => {
+  const textParts = {
+    intro: "By tapping next, you are agreeing to PlantID ",
+    terms: "Terms of Use",
+    and: " & ",
+    policy: "Privacy Policy",
+    end: "."
+  };
+
+  const titlePart1 = "Welcome to ";
+  const titlePart2 = "PlantApp";
+
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.title}>Welcome to PlantApp</Text>
-        <Text style={styles.subtitle}>
-          Identify more than 3000+ plants and 88% accuracy.
-        </Text>
-      </View>
+    <LinearGradient colors={['#F8FAFF', '#FAFAFA']} style={styles.gradientContainer}>
+      <SafeAreaView style={styles.safeAreaContent}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.title}>
+            {titlePart1}
+            <Text style={styles.titleBoldPart}>{titlePart2}</Text>
+            </Text>
+          <Text style={styles.subtitle}>
+            {GetStartedTexts.subtitle}
+          </Text>
+        </View>
 
-      <View style={styles.imageContainer}>
-        {/* <Image source={require('../assets/plant_image.png')} style={styles.plantImage} /> */}
-      </View>
+        <View style={styles.imageContainer}>
+          <GetStartedPlantSvg width={styles.plantImage.width} height={styles.plantImage.height} />
+          <ScanSvg 
+            width={styles.scanOverlay.width} 
+            height={styles.scanOverlay.height} 
+            style={styles.scanOverlay}
+          />
+          <Image source={require('../assets/images/sprey.png')} style={[styles.iconOverlay, styles.iconSprey]} />
+          <Image source={require('../assets/images/sun.png')} style={[styles.iconOverlay, styles.iconSun]} />
+          <Image source={require('../assets/images/damla.png')} style={[styles.iconOverlay, styles.iconDamla]} />
+        </View>
 
-      <View style={styles.footerContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('OnboardingFirst')}>
-          <Text style={styles.buttonText}>Get Started</Text>
-        </TouchableOpacity>
-        <Text style={styles.legalText}>
-          By tapping next, you are agreeing to PlantID Terms of Use & Privacy Policy.
-        </Text>
-      </View>
-    </SafeAreaView>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton 
+            title={GetStartedTexts.button}
+            onPress={() => navigation.navigate('OnboardingFirst')}
+          />
+        </View>
+        <View style={styles.legalContainer}>
+            <Text style={styles.legalText}>
+                {textParts.intro}
+                <Text style={styles.linkText}>{textParts.terms}</Text>
+                {textParts.and}
+                <Text style={styles.linkText}>{textParts.policy}</Text>
+                {textParts.end}
+            </Text>
+        </View>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  gradientContainer: {
     flex: 1,
-    backgroundColor: '#E0F7FA',
+  },
+  safeAreaContent: {
+    flex: 1,
     justifyContent: 'space-between',
   },
   headerContainer: {
-    alignItems: 'center',
-    paddingTop: 50,
-    paddingHorizontal: 20,
+    alignItems: 'flex-start',
+    paddingTop: verticalScale(59),
+    paddingHorizontal: scale(24),
+    
   },
   title: {
-    fontSize: 28,
+    fontSize: fontScale(28),
+    fontFamily: 'Rubik',
+    fontWeight: '600',
+    color: '#13231B',
+    textAlign: 'left',
+    marginBottom: verticalScale(8),
+  },
+  titleBoldPart: {
     fontWeight: 'bold',
-    color: '#2E7D32',
-    textAlign: 'center',
-    marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
-    color: '#4CAF50',
-    textAlign: 'center',
-    marginBottom: 30,
+    fontSize: fontScale(16),
+    fontFamily: 'Rubik',
+    fontWeight: '400',
+    color: '#13231B',
+    textAlign: 'left',
+    marginBottom: verticalScale(30),
+    lineHeight: fontScale(15),
+    letterSpacing: 0.07,
   },
   imageContainer: {
     flex: 1,
@@ -61,33 +110,63 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   plantImage: {
-    width: 300,
-    height: 400,
+    width: scale(300),
+    height: verticalScale(400),
+  },
+  scanOverlay: {
+    position: 'absolute',
+    width: '80%',
+    height: '60%',
+    resizeMode: 'contain',
+    bottom: '35%',
+  },
+  iconOverlay: {
+    position: 'absolute',
+    width: scale(50),
+    height: scale(50),
     resizeMode: 'contain',
   },
-  footerContainer: {
-    alignItems: 'center',
-    paddingBottom: 30,
-    paddingHorizontal: 20,
+  iconSprey: {
+    top: '20%',
+    left: '10%',
+    transform: [{ rotate: '-15deg' }],
   },
-  button: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 15,
-    paddingHorizontal: 120,
-    borderRadius: 25,
-    marginBottom: 15,
-    width: '90%',
-    alignItems: 'center',
+  iconSun: {
+    top: '15%',
+    right: '10%',
+    transform: [{ rotate: '15deg' }],
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+  iconDamla: {
+    bottom: '25%',
+    right: '15%',
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    paddingBottom: verticalScale(10),
+    paddingHorizontal: scale(20),
+  },
+  legalContainer: {
+    alignItems: 'center',
+    paddingBottom: verticalScale(30),
+    paddingHorizontal: scale(20),
   },
   legalText: {
-    fontSize: 12,
-    color: 'gray',
+    fontSize: fontScale(11),
+    color: '#597165B2',
     textAlign: 'center',
+    marginEnd: scale(40),
+    marginStart: scale(40),
+    fontFamily: 'Rubik',
+    fontWeight: '400',
+    lineHeight: fontScale(15),
+    letterSpacing: 0.07,
+  },
+  linkText: {
+    textDecorationLine: 'underline',
+    fontSize: fontScale(11),
+    color: '#597165B2',
+    fontFamily: 'Rubik',
+    fontWeight: '400',
   },
 });
 
