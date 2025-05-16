@@ -57,7 +57,7 @@ const PaywallScreen = ({ navigation }: PaywallScreenProps) => {
       <PayWallBackGroundSvg width={scale(380)}  style={styles.backgroundSvg} />
 
       <TouchableOpacity
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate('MainApp')}
         style={[
           styles.closeButtonContainer,
           { top: insets.top + verticalScale(15) },
