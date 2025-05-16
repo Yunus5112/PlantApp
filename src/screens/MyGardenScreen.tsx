@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyGardenScreen; 
+export default MyGardenScreen;

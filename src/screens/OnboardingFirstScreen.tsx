@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
 import PhoneSvg from '../assets/svg/Phone.svg';
 import ScanSvg from '../assets/svg/Scan.svg';
-import GetStartedPlantSvg from '../assets/svg/getstartedplantsvg.svg';
+import GetStartedPlantSvg from '../assets/svg/GetStartedPlantSvg.svg';
 import { OnboardingFirstTexts } from '../constants/OnboardingFirstScreenTexts';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import { fontScale, scale, verticalScale } from '../utils/scaling';
@@ -28,20 +28,20 @@ const OnboardingFirstScreen = ({ navigation }: OnboardingFirstScreenProps) => {
         </View>
 
         <View style={styles.imageContainer}>
-          <GetStartedPlantSvg 
-            width={styles.backgroundImagePlant.width} 
-            height={styles.backgroundImagePlant.height} 
-            style={styles.backgroundImagePlant} 
+          <GetStartedPlantSvg
+            width={styles.backgroundImagePlant.width}
+            height={styles.backgroundImagePlant.height}
+            style={styles.backgroundImagePlant}
           />
-          <PhoneSvg 
-            width={styles.phoneImage.width} 
-            height={styles.phoneImage.height} 
-            style={styles.phoneImage} 
+          <PhoneSvg
+            width={styles.phoneImage.width}
+            height={styles.phoneImage.height}
+            style={styles.phoneImage}
           />
-          <ScanSvg 
-            width={styles.scanOverlay.width} 
-            height={styles.scanOverlay.height} 
-            style={styles.scanOverlay} 
+          <ScanSvg
+            width={styles.scanOverlay.width}
+            height={styles.scanOverlay.height}
+            style={styles.scanOverlay}
           />
         </View>
 
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     fontSize: fontScale(28),
     fontWeight: '500',
     color: '#13231B',
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: verticalScale(30),
   },
   highlightIdentify: {
@@ -106,13 +106,13 @@ const styles = StyleSheet.create({
     height: verticalScale(360),
     resizeMode: 'contain',
     zIndex: 1,
-    top: '-5%',
+    top: '-1%',
   },
   scanOverlay: {
     position: 'absolute',
-    width: '60%', 
-    height: '50%',
-    top: '25%',
+    width: '50%',
+    height: '40%',
+    top: '15%',
     zIndex: 2,
   },
   buttonContainer: {

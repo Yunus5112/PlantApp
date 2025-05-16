@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
-import GetStartedPlantSvg from '../assets/svg/getstartedplantsvg.svg';
+import GetStartedPlantSvg from '../assets/svg/GetStartedPlantSvg.svg';
 import ScanSvg from '../assets/svg/Scan.svg';
 import { GetStartedTexts } from '../constants/GetStartedScreenTexts';
 import { fontScale, scale, verticalScale } from '../utils/scaling';
@@ -13,15 +13,15 @@ type GetStartedScreenProps = NativeStackScreenProps<RootStackParamList, 'GetStar
 
 const GetStartedScreen = ({ navigation }: GetStartedScreenProps) => {
   const textParts = {
-    intro: "By tapping next, you are agreeing to PlantID ",
-    terms: "Terms of Use",
-    and: " & ",
-    policy: "Privacy Policy",
-    end: "."
+    intro: 'By tapping next, you are agreeing to PlantID ',
+    terms: 'Terms of Use',
+    and: ' & ',
+    policy: 'Privacy Policy',
+    end: '.',
   };
 
-  const titlePart1 = "Welcome to ";
-  const titlePart2 = "PlantApp";
+  const titlePart1 = 'Welcome to ';
+  const titlePart2 = 'PlantApp';
 
 
   return (
@@ -39,9 +39,9 @@ const GetStartedScreen = ({ navigation }: GetStartedScreenProps) => {
 
         <View style={styles.imageContainer}>
           <GetStartedPlantSvg width={styles.plantImage.width} height={styles.plantImage.height} />
-          <ScanSvg 
-            width={styles.scanOverlay.width} 
-            height={styles.scanOverlay.height} 
+          <ScanSvg
+            width={styles.scanOverlay.width}
+            height={styles.scanOverlay.height}
             style={styles.scanOverlay}
           />
           <Image source={require('../assets/images/sprey.png')} style={[styles.iconOverlay, styles.iconSprey]} />
@@ -50,7 +50,7 @@ const GetStartedScreen = ({ navigation }: GetStartedScreenProps) => {
         </View>
 
         <View style={styles.buttonContainer}>
-          <PrimaryButton 
+          <PrimaryButton
             title={GetStartedTexts.button}
             onPress={() => navigation.navigate('OnboardingFirst')}
           />
@@ -79,9 +79,8 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'flex-start',
-    paddingTop: verticalScale(59),
+    paddingTop: verticalScale(24),
     paddingHorizontal: scale(24),
-    
   },
   title: {
     fontSize: fontScale(28),

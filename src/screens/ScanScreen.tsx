@@ -46,10 +46,10 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   buttonText: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
-  }
+  },
 });
 
-export default ScanScreen; 
+export default ScanScreen;

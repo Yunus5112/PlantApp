@@ -9,7 +9,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'; // Added for custom button
+import { TouchableOpacity, StyleSheet, View } from 'react-native';
 import { Provider } from 'react-redux';
 import store from './src/redux/store';
 
@@ -28,6 +28,7 @@ import ScanScreen from './src/screens/ScanScreen';
 import HomeIcon from './src/assets/icon/home-icon.svg';
 import HealthIcon from './src/assets/icon/health-icon.svg';
 import ScanIcon from './src/assets/icon/scan-icon.svg';
+import ScanBg from './src/assets/svg/ScanBg.svg';
 import GardenIcon from './src/assets/icon/garden-icon.svg';
 import ProfileIcon from './src/assets/icon/profile-icon.svg';
 
@@ -63,16 +64,19 @@ const shadowStyle = {
 };
 
 const CustomTabBarButton = (props: any) => (
-  <TouchableOpacity
-    {...props}
-    style={[
-      props.style,
-      styles.customButton,
-    ]}
-    onPress={props.onPress}
-  >
-    <ScanIcon width={30} height={30} fill={'#FFFFFF'} />
-  </TouchableOpacity>
+  <View style={styles.customButtonContainer}>
+    <ScanBg width={60} height={60} style={styles.scanBg} />
+    <TouchableOpacity
+      {...props}
+      style={[
+        props.style,
+        styles.customButton,
+      ]}
+      onPress={props.onPress}
+    >
+      <ScanIcon width={30} height={30} fill={'#FFFFFF'} />
+    </TouchableOpacity>
+  </View>
 );
 
 
@@ -87,7 +91,7 @@ function MainAppTabs() {
           bottom: 15,
           left: 10,
           right: 10,
-          backgroundColor: '#ffffff',
+          backgroundColor: '#FFFFFF',
           borderRadius: 15,
           height: 70,
           ...shadowStyle,
@@ -96,57 +100,61 @@ function MainAppTabs() {
         tabBarInactiveTintColor: '#BDBDBD',
       }}
     >
-      <Tab.Screen 
-        name="HomeTab" 
-        component={HomePage} 
+      <Tab.Screen
+        name="Home"
+        component={HomePage}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color, size, focused }) => (
+          // eslint-disable-next-line react/no-unstable-nested-components
+          tabBarIcon: ({ color, size }) => (
             <HomeIcon width={size} height={size} fill={color} />
           ),
         }}
       />
-      <Tab.Screen 
-        name="Diagnose" 
-        component={DiagnoseScreen} 
+      <Tab.Screen
+        name="Diagnose"
+        component={DiagnoseScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color, size, focused }) => (
+          // eslint-disable-next-line react/no-unstable-nested-components
+          tabBarIcon: ({ color, size }) => (
             <HealthIcon width={size} height={size} fill={color} />
           ),
         }}
       />
       <Tab.Screen
-        name="ScanButton" 
-        component={ScanScreen} 
+        name="ScanButton"
+        component={ScanScreen}
         options={{
           headerShown: false,
+          // eslint-disable-next-line react/no-unstable-nested-components
           tabBarButton: (props) => (
             <CustomTabBarButton {...props} onPress={() => {
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore 
-                 props.onPress?.(); 
+                  // @ts-ignore
+                 props.onPress?.();
               }}
             />
           ),
         }}
       />
-      <Tab.Screen 
-        name="MyGarden" 
-        component={MyGardenScreen} 
+      <Tab.Screen
+        name="MyGarden"
+        component={MyGardenScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color, size, focused }) => (
+          // eslint-disable-next-line react/no-unstable-nested-components
+          tabBarIcon: ({ color, size }) => (
             <GardenIcon width={size} height={size} fill={color} />
           ),
         }}
       />
-      <Tab.Screen 
-        name="Profile" 
-        component={ProfileScreen} 
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color, size, focused }) => (
+          // eslint-disable-next-line react/no-unstable-nested-components
+          tabBarIcon: ({ color, size }) => (
             <ProfileIcon width={size} height={size} fill={color} />
           ),
         }}
@@ -172,17 +180,23 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
+  customButtonContainer: {
+    alignItems: 'center',
+    position: 'relative',
+  },
+  scanBg: {
+    position: 'absolute',
+    top: -25,
+    zIndex: 0,
+  },
   customButton: {
-    top: -20, 
+    top: -2,
     justifyContent: 'center',
     alignItems: 'center',
     width: 70,
     height: 70,
     borderRadius: 35,
-    backgroundColor: '#28AF6E', 
-    ...shadowStyle, 
-    borderWidth: 4, 
-    borderColor: '#F0F0F0', 
+    zIndex: 1,
   },
 });
 

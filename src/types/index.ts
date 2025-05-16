@@ -5,7 +5,7 @@ export interface ApiImage {
   caption: string | null;
   width: number;
   height: number;
-  formats: any | null; // Adjust if you have specific format types
+  formats: any | null;
   hash: string;
   ext: string;
   mime: string;
@@ -13,7 +13,7 @@ export interface ApiImage {
   url: string;
   previewUrl: string | null;
   provider: string;
-  provider_metadata: any | null; // Adjust if you have specific metadata types
+  provider_metadata: any | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -50,4 +50,4 @@ export interface Question {
   order: number;
 }
 
-export type QuestionsApiResponse = Question[]; 
+export type QuestionsApiResponse = Question[];

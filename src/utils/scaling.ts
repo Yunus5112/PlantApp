@@ -9,9 +9,9 @@ export const scale = (size: number): number => (SCREEN_WIDTH / BASE_WIDTH) * siz
 
 export const verticalScale = (size: number): number => (SCREEN_HEIGHT / BASE_HEIGHT) * size;
 
-export const moderateScale = (size: number, factor = 0.5): number => 
+export const moderateScale = (size: number, factor = 0.5): number =>
   size + (scale(size) - size) * factor;
 
 export const fontScale = (size: number): number => size * PixelRatio.getFontScale();
 
-export { SCREEN_WIDTH, SCREEN_HEIGHT }; 
+export { SCREEN_WIDTH, SCREEN_HEIGHT };

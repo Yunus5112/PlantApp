@@ -25,14 +25,14 @@ const OnboardingSecondScreen = ({ navigation }: OnboardingSecondScreenProps) => 
         </View>
 
         <View style={styles.imageContainer}>
-          <Onboarding2Svg 
-            width={styles.onboardingImage.width} 
-            height={styles.onboardingImage.height} 
+          <Onboarding2Svg
+            width={styles.onboardingImage.width}
+            height={styles.onboardingImage.height}
             style={styles.onboardingImage}
           />
-          <Onboarding2SecondSvg 
-            width={styles.floatingCardsImage.width} 
-            height={styles.floatingCardsImage.height} 
+          <Onboarding2SecondSvg
+            width={styles.floatingCardsImage.width}
+            height={styles.floatingCardsImage.height}
             style={styles.floatingCardsImage}
           />
         </View>
@@ -65,16 +65,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   headerContainer: {
-    alignItems: 'center',
-    paddingTop: verticalScale(50),
-    paddingHorizontal: scale(20),
+    alignItems: 'flex-start',
+    paddingTop: verticalScale(10),
+    paddingHorizontal: scale(10),
   },
   title: {
     fontSize: fontScale(28),
     fontWeight: '500',
     color: '#13231B',
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: verticalScale(30),
+    paddingHorizontal:scale(20),
   },
   titleBold: {
     fontWeight: 'bold',
@@ -123,4 +124,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OnboardingSecondScreen; 
+export default OnboardingSecondScreen;

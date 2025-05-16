@@ -25,7 +25,7 @@ type HomePageProps = CompositeScreenProps<
   NativeStackScreenProps<RootStackParamList>
 >;
 
-const { width } = Dimensions.get('window');
+Dimensions.get('window');
 
 const HomePage = ({ navigation }: HomePageProps) => {
   const [getStartedData, setGetStartedData] = useState<Question[]>([]);
@@ -40,7 +40,7 @@ const HomePage = ({ navigation }: HomePageProps) => {
         data.sort((a, b) => a.order - b.order);
         setGetStartedData(data);
       } catch (error) {
-        console.error("Failed to fetch questions:", error);
+        console.error('Failed to fetch questions:', error);
       }
     };
 
@@ -51,7 +51,7 @@ const HomePage = ({ navigation }: HomePageProps) => {
         data.data.sort((a, b) => a.rank - b.rank);
         setCategoriesData(data.data);
       } catch (error) {
-        console.error("Failed to fetch categories:", error);
+        console.error('Failed to fetch categories:', error);
       }
     };
 
@@ -69,10 +69,10 @@ const HomePage = ({ navigation }: HomePageProps) => {
 
   const renderCategoryItem = ({ item }: { item: PlantCategory }) => (
     <TouchableOpacity style={styles.categoryCard}>
-      <Image source={{ uri: item.image.url }} style={styles.categoryCardImage} />
       <View style={styles.categoryCardTextContainer}>
         <Text style={styles.categoryCardText}>{item.title}</Text>
       </View>
+            <Image source={{ uri: item.image.url }} style={styles.categoryCardImage} />
     </TouchableOpacity>
   );
 
@@ -82,19 +82,19 @@ const HomePage = ({ navigation }: HomePageProps) => {
         <View style={styles.headerContainer}>
           <Text style={styles.greetingText}>{HomePageTexts.greeting}</Text>
           <Text style={styles.timeText}>{HomePageTexts.timeGreeting}</Text>
-        </View>
 
-        <View style={styles.searchContainer}>
-          <View style={styles.searchIconContainer}>
-            <Text>{HomePageTexts.searchIconFallback}</Text>
+          <View style={styles.searchContainer}>
+            <View style={styles.searchIconContainer}>
+              <Text>{HomePageTexts.searchIconFallback}</Text>
+            </View>
+            <TextInput
+              placeholder={HomePageTexts.searchPlaceholder}
+              placeholderTextColor="#AFAFAF"
+              style={styles.searchInput}
+              value={searchText}
+              onChangeText={setSearchText}
+            />
           </View>
-          <TextInput
-            placeholder={HomePageTexts.searchPlaceholder}
-            placeholderTextColor="#AFAFAF"
-            style={styles.searchInput}
-            value={searchText}
-            onChangeText={setSearchText}
-          />
           <HomePageLeftImageSvg style={styles.leftSvg} />
           <HomePageRightImageSvg style={styles.rightSvg} />
         </View>
@@ -123,7 +123,6 @@ const HomePage = ({ navigation }: HomePageProps) => {
           contentContainerStyle={styles.getStartedList}
         />
 
-        <Text style={styles.sectionTitle}>{HomePageTexts.categoriesSectionTitle}</Text>
         <FlatList
           data={categoriesData}
           renderItem={renderCategoryItem}
@@ -149,22 +148,26 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     backgroundColor: '#FFFFFF',
-    paddingBottom: 20,
+    paddingTop: 20,
+    paddingBottom: 70,
     paddingHorizontal: 20,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     position: 'relative',
-    overflow: 'hidden',
+    overflow: 'visible',
+    marginBottom:10,
   },
   leftSvg: {
     position: 'absolute',
-    top: 0,
+    bottom: -30,
     left: 0,
+    zIndex: 1,
   },
   rightSvg: {
     position: 'absolute',
-    top: 0,
+    bottom: -30,
     right: 0,
+    zIndex: 1,
   },
   greetingText: {
     fontSize: 16,
@@ -181,7 +184,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F2F5',
     borderRadius: 10,
     paddingHorizontal: 10,
-    marginTop: 15,
+    marginTop: 10,
     height: 50,
   },
   searchIcon: {
@@ -193,8 +196,10 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   searchContainer: {
-    marginHorizontal: 20,
-    marginBottom: 25,
+    position: 'absolute',
+    bottom: -25, // Header'ın alt kısmından dışarı çıkmasını sağlar
+    left: 20,
+    right: 20,
     backgroundColor: '#fff',
     borderRadius: 12,
     paddingHorizontal: 15,
@@ -206,6 +211,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
+    zIndex: 10, // Yüksek bir z-index değeri
   },
   searchIconContainer: {
     marginRight: 10,
@@ -214,6 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2C2C2C',
     borderRadius: 15,
     marginHorizontal: 20,
+    marginTop: 30, // Search bar'dan sonra biraz boşluk
     marginBottom: 30,
     paddingVertical: 18,
     paddingHorizontal: 15,
@@ -296,7 +303,7 @@ const styles = StyleSheet.create({
     bottom: 15,
     left: 15,
     right: 15,
-    color: '#fff',
+    color: '#FFFFFF',
     fontSize: 15,
     fontWeight: 'bold',
   },
@@ -308,13 +315,13 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   categoryCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     borderRadius: 15,
     width: '48%',
-    aspectRatio: 0.9,
+    aspectRatio: 1.4,
     overflow: 'hidden',
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
@@ -325,15 +332,15 @@ const styles = StyleSheet.create({
   },
   categoryCardTextContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     padding: 5,
   },
   categoryCardText: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#13231B',
-    textAlign: 'center',
+    textAlign: 'left',
   },
 });
 

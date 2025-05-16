@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     minHeight: scale(50),
   },
   buttonText: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontSize: fontScale(15),
     fontWeight: 'bold',
     textAlign: 'center',
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PrimaryButton; 
+export default PrimaryButton;
