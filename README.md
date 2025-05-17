@@ -96,24 +96,70 @@ Make sure you have completed the [React Native development environment setup](ht
 
 ## 📂 Project Structure
 
-The project follows a standard React Native structure with key source files located in the `src/` directory:
-
-src/
-├── assets/         # Images, SVGs, fonts
-│   ├── icon/
-│   └── svg/
-├── components/     # Reusable UI components
-│   ├── buttons/
-│   └── cards/
-├── constants/      # App-wide constants (e.g., text literals)
-├── navigation/     # Navigation setup (if you extract it from App.tsx)
-├── redux/          # Redux store, slices, actions
-│   └── slices/
-├── screens/        # Top-level screen components
-├── types/          # TypeScript type definitions
-└── utils/          # Utility functions (e.g., scaling)
-App.tsx             # Root application component
-custom.d.ts         # Custom type declarations (e.g., for SVG imports)
+PlantApp/
+├── .git/
+├── .bundle/
+├── __tests__/
+├── android/
+├── ios/
+├── node_modules/
+├── src/
+│   ├── assets/
+│   │   ├── icon/         # Uygulama ikonları (SVG, PNG vb.)
+│   │   ├── images/       # Genel imaj dosyaları (PNG, JPG vb.)
+│   │   ├── screenShots/  # README için ekran görüntüleri
+│   │   └── svg/          # SVG formatındaki grafikler ve ikonlar
+│   ├── components/
+│   │   ├── buttons/      # Yeniden kullanılabilir buton bileşenleri
+│   │   └── cards/        # Yeniden kullanılabilir kart bileşenleri
+│   ├── constants/
+│   │   ├── DiagnoseScreenTexts.ts
+│   │   ├── GetStartedScreenTexts.ts
+│   │   ├── HomePageTexts.ts
+│   │   ├── MyGardenScreenTexts.ts
+│   │   ├── OnboardingFirstScreenTexts.ts
+│   │   ├── OnboardingSecondScreenTexts.ts
+│   │   ├── PaywallScreenTexts.ts
+│   │   ├── ProfileScreenTexts.ts
+│   │   └── ScanScreenTexts.ts
+│   ├── navigation/
+│   │   ├── BottomTabNavigator.tsx # Alt tab navigasyonunu yönetir
+│   │   └── MainStackNavigator.tsx   # Ana stack navigasyonunu yönetir
+│   ├── redux/
+│   │   ├── slices/
+│   │   │   └── dummySlice.ts      # Örnek bir Redux slice
+│   │   └── store.ts               # Redux store konfigürasyonu
+│   ├── screens/
+│   │   ├── DiagnoseScreen.tsx
+│   │   ├── GetStartedScreen.tsx
+│   │   ├── HomePage.tsx
+│   │   ├── MyGardenScreen.tsx
+│   │   ├── OnboardingFirstScreen.tsx
+│   │   ├── OnboardingSecondScreen.tsx
+│   │   ├── PaywallScreen.tsx
+│   │   ├── ProfileScreen.tsx
+│   │   └── ScanScreen.tsx
+│   ├── types/
+│   │   └── index.ts               # Global TypeScript tip tanımlamaları
+│   ├── utils/
+│   │   └── scaling.ts             # Ekran boyutlandırma yardımcı fonksiyonları
+│   └── custom.d.ts                # Özel TypeScript tip tanımlamaları (örn: SVG importları için)
+├── vendor/
+├── .eslintrc.js
+├── .gitignore
+├── .prettierrc.js
+├── .watchmanconfig
+├── App.tsx                        # Ana uygulama giriş noktası, Provider'ları ve ana navigatörü içerir
+├── app.json
+├── babel.config.js
+├── Gemfile
+├── index.js                       # React Native uygulama kayıt noktası
+├── jest.config.js
+├── metro.config.js
+├── package-lock.json
+├── package.json
+├── README.md
+└── tsconfig.json
 
 ---
 ## ✨ Features & Screenshots
