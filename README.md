@@ -96,6 +96,7 @@ Make sure you have completed the [React Native development environment setup](ht
 
 ## 📂 Project Structure
 
+```text
 PlantApp/
 ├── .git/
 ├── .bundle/
@@ -144,12 +145,12 @@ PlantApp/
 │   ├── utils/
 │   │   └── scaling.ts             # Ekran boyutlandırma yardımcı fonksiyonları
 │   └── custom.d.ts                # Özel TypeScript tip tanımlamaları (örn: SVG importları için)
-├── vendor/
+├── vendor/                       # (Eğer varsa, genellikle .gitignore içindedir)
 ├── .eslintrc.js
 ├── .gitignore
 ├── .prettierrc.js
 ├── .watchmanconfig
-├── App.tsx                        # Ana uygulama giriş noktası, Provider'ları ve ana navigatörü içerir
+├── App.tsx                        # Ana uygulama giriş noktası
 ├── app.json
 ├── babel.config.js
 ├── Gemfile
@@ -160,6 +161,7 @@ PlantApp/
 ├── package.json
 ├── README.md
 └── tsconfig.json
+```
 
 ---
 ## ✨ Features & Screenshots
