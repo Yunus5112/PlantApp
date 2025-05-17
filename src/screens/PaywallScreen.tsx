@@ -7,7 +7,7 @@ import {
   StatusBar,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../../App';
+import type { RootStackParamList } from '../navigation/MainStackNavigator';
 import { PaywallTexts } from '../constants/PaywallScreenTexts';
 import PayWallBackGroundSvg from '../assets/svg/PayWallBackgroundSvg.svg';
 import PayWallScanSvg from '../assets/svg/PayWallScan.svg';
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     zIndex: 1,
+    opacity: 0.5,
   },
   contentContainer: {
     flex: 1,

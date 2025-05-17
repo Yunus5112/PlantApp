@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../../App';
+import type { RootStackParamList } from '../navigation/MainStackNavigator';
 import GetStartedPlantSvg from '../assets/svg/GetStartedPlantSvg.svg';
 import ScanSvg from '../assets/svg/Scan.svg';
 import { GetStartedTexts } from '../constants/GetStartedScreenTexts';
@@ -153,8 +153,7 @@ const styles = StyleSheet.create({
     fontSize: fontScale(11),
     color: '#597165B2',
     textAlign: 'center',
-    marginEnd: scale(40),
-    marginStart: scale(40),
+    marginHorizontal: scale(40),
     fontFamily: 'Rubik',
     fontWeight: '400',
     lineHeight: fontScale(15),

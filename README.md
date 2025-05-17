@@ -118,14 +118,21 @@ custom.d.ts         # Custom type declarations (e.g., for SVG imports)
 ---
 ## ✨ Features & Screenshots
 
-**Example:**
-
 **Get Started Screen**
+![Get Started Screen](src/screenShots/GetStarted.png)
 
 **Onboarding Flow**
+![Onboarding Flow](src/screenShots/Onboarding_1.png)
+![Onboarding Flow](src/screenShots/Onboarding_2.png)
+
 
 **Paywall Screen**
+![Paywall Screen](src/screenShots/PayWallScreen.png)
+_Premium özelliklere erişim sunan ödeme duvarı._
 
+**Home Page**
+![Home Page](src/screenShots/HomeScreen.png)
+_Ana kategori ve içeriklerin listelendiği ana sayfa._
 
 ## 📧 Contact
 

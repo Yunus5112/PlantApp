@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../../App';
+import type { RootStackParamList } from '../navigation/MainStackNavigator';
 import PhoneSvg from '../assets/svg/Phone.svg';
 import ScanSvg from '../assets/svg/Scan.svg';
 import GetStartedPlantSvg from '../assets/svg/GetStartedPlantSvg.svg';
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: verticalScale(20),
+    marginVertical:verticalScale(20),
   },
   dot: {
     width: scale(8),

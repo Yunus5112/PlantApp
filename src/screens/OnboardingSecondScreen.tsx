@@ -2,9 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../../App';
+import type { RootStackParamList } from '../navigation/MainStackNavigator';
 import Onboarding2Svg from '../assets/svg/Onboarding2.svg';
 import Onboarding2SecondSvg from '../assets/svg/Onboarding2Second.svg';
+import PhoneBodySvg from '../assets/svg/PhoneBody.svg';
+import Onboarding2BgSvg from '../assets/svg/Onboardin2Bg.svg';
 import { OnboardingSecondTexts } from '../constants/OnboardingSecondScreenTexts';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import { fontScale, scale, verticalScale } from '../utils/scaling';
@@ -25,16 +27,29 @@ const OnboardingSecondScreen = ({ navigation }: OnboardingSecondScreenProps) => 
         </View>
 
         <View style={styles.imageContainer}>
-          <Onboarding2Svg
-            width={styles.onboardingImage.width}
-            height={styles.onboardingImage.height}
-            style={styles.onboardingImage}
-          />
-          <Onboarding2SecondSvg
-            width={styles.floatingCardsImage.width}
-            height={styles.floatingCardsImage.height}
-            style={styles.floatingCardsImage}
-          />
+          <View style={styles.svgCanvas}>
+            <Onboarding2BgSvg
+              width={styles.onboardingBgImage.width}
+              height={styles.onboardingBgImage.height}
+              style={styles.onboardingBgImage}
+            />
+            <PhoneBodySvg
+              width={styles.phoneBodyImage.width}
+              height={styles.phoneBodyImage.height}
+              style={styles.phoneBodyImage}
+            />
+            <View style={styles.onboardingImageWrapper}>
+              <Onboarding2Svg
+                width="100%"
+                height="100%"
+              />
+            </View>
+            <Onboarding2SecondSvg
+              width={styles.floatingCardsImage.width}
+              height={styles.floatingCardsImage.height}
+              style={styles.floatingCardsImage}
+            />
+          </View>
         </View>
 
         <View style={styles.footerContainer}>
@@ -84,25 +99,49 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative',
+    marginTop: verticalScale(50),
   },
-  onboardingImage: {
-    width: scale(243),
-    height: verticalScale(525),
+  svgCanvas: {
+    position: 'relative',
+    width: scale(350),
+    height: verticalScale(550),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  onboardingBgImage: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
     zIndex: 0,
+    opacity: 0.8,
+  },
+  phoneBodyImage: {
+    position: 'absolute',
+    width: scale(270),
+    height: verticalScale(450),
+    zIndex: 1,
+  },
+  onboardingImageWrapper: {
+    width: scale(243),
+    height: verticalScale(425),
+    position: 'absolute',
+    zIndex: 2,
+    borderRadius: scale(30),
+    overflow: 'hidden',
   },
   floatingCardsImage: {
     position: 'absolute',
     width: scale(155),
     height: verticalScale(170),
-    top: '15%',
-    right: '5%',
-    zIndex: 1,
+    top: '5%',
+    right: '-5%',
+    zIndex: 3,
   },
   footerContainer: {
     alignItems: 'center',
     paddingBottom: verticalScale(30),
     paddingHorizontal: scale(20),
+    zIndex: 6,
   },
   paginationContainer: {
     flexDirection: 'row',

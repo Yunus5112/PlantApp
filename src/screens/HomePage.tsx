@@ -14,18 +14,24 @@ import {
 import type { CompositeScreenProps } from '@react-navigation/native';
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamList, BottomTabParamList } from '../../App';
+import type { RootStackParamList } from '../navigation/MainStackNavigator';
+import type { BottomTabParamList } from '../navigation/BottomTabNavigator';
 import type { PlantCategory, ApiResponse as CategoriesApiResponse, Question, QuestionsApiResponse } from '../types';
 import HomePageLeftImageSvg from '../assets/svg/HomePageLeftImage.svg';
 import HomePageRightImageSvg from '../assets/svg/HomePageRightImage.svg';
 import { HomePageTexts } from '../constants/HomePageTexts';
 
 type HomePageProps = CompositeScreenProps<
-  BottomTabScreenProps<BottomTabParamList, 'HomeTab'>,
+  BottomTabScreenProps<BottomTabParamList, 'Home'>,
   NativeStackScreenProps<RootStackParamList>
 >;
 
 Dimensions.get('window');
+
+const API = {
+  questions: 'https://dummy-api-jtg6bessta-ey.a.run.app/getQuestions',
+  categories: 'https://dummy-api-jtg6bessta-ey.a.run.app/getCategories',
+};
 
 const HomePage = ({ navigation }: HomePageProps) => {
   const [getStartedData, setGetStartedData] = useState<Question[]>([]);
@@ -35,7 +41,7 @@ const HomePage = ({ navigation }: HomePageProps) => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch('https://dummy-api-jtg6bessta-ey.a.run.app/getQuestions');
+        const response = await fetch(API.questions);
         const data: QuestionsApiResponse = await response.json();
         data.sort((a, b) => a.order - b.order);
         setGetStartedData(data);
@@ -46,7 +52,7 @@ const HomePage = ({ navigation }: HomePageProps) => {
 
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://dummy-api-jtg6bessta-ey.a.run.app/getCategories');
+        const response = await fetch(API.categories);
         const data: CategoriesApiResponse = await response.json();
         data.data.sort((a, b) => a.rank - b.rank);
         setCategoriesData(data.data);
