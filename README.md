@@ -119,19 +119,19 @@ custom.d.ts         # Custom type declarations (e.g., for SVG imports)
 ## ✨ Features & Screenshots
 
 **Get Started Screen**
-![Get Started Screen](src/assets/screenShots/GetStarted.png)
+<img src="src/assets/screenShots/GetStarted.png" alt="GetStarted Screen" width="400"/>
 
 **Onboarding Flow**
-![Onboarding Flow](src/assets/screenShots/Onboarding_1.png)
-![Onboarding Flow](src/assets/screenShots/Onboarding_2.png)
+<img src="src/assets/screenShots/Onboarding_1.png" alt="OnBoarding/1 Screen" width="400"/>
+<img src="src/assets/screenShots/Onboarding_2.png" alt="OnBoarding/2 Screen" width="400"/>
 
 
 **Paywall Screen**
-![Paywall Screen](src/assets/screenShots/PayWallScreen.png)
+<img src="src/assets/screenShots/PayWallScreen.png" alt="PayWall Screen" width="400"/>
 _Premium özelliklere erişim sunan ödeme duvarı._
 
 **Home Page**
-![Home Page](src/assets/screenShots/HomeScreen.png)
+<img src="src/assets/screenShots/HomeScreen.png" alt="Home Screen" width="400"/>
 _Ana kategori ve içeriklerin listelendiği ana sayfa._
 
 ## 📧 Contact
